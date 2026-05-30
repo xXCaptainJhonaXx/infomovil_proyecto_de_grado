@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infocal_infomovil/widgets/title_text.dart';
 import 'package:infocal_infomovil/widgets/logo_instituto.dart';
 import 'package:infocal_infomovil/widgets/input_field.dart';
+import 'package:infocal_infomovil/widgets/button_login.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final altoPantalla = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white, // Fondo blanco de tu Figma
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset:
           true, // Evita que el teclado empuje el contenido hacia arriba
       body: SafeArea(
@@ -29,13 +30,13 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // 1. Un margen inicial arriba para que el logo no choque con el borde de la pantalla
-                SizedBox(height: altoPantalla * 0.05),
+                SizedBox(height: altoPantalla * 0.02),
 
                 // ¡Tu componente de Logo modular!
                 const LogoInstituto(),
 
                 // 2. Espacio corto y controlado entre el logo y el texto (2% de la pantalla)
-                SizedBox(height: altoPantalla * 0.02),
+                SizedBox(height: altoPantalla * 0.005),
 
                 // Tu componente de Título
                 const TitleText(text: "Iniciar Sesion"),
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 const SizedBox(
-                  height: 20.0,
+                  height: 30.0,
                 ), // Espacio entre los dos campos de texto
 
                 const Padding(
@@ -58,6 +59,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: CampoTextoPersonalizado(
                     etiqueta: "Contraseña",
                     ocultarTexto: true,
+                  ),
+                ),
+
+                SizedBox(height: altoPantalla * 0.04),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  child: BotonPrincipal(
+                    texto: "INGRESAR",
+                    alPresionar: () {
+                      //LOGICA DE AUTENTICACION
+                      print("iniciando sesion...");
+                    },
                   ),
                 ),
               ],

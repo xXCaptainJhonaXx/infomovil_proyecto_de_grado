@@ -9,8 +9,8 @@ class LogoInstituto extends StatelessWidget {
     final altoPantalla = MediaQuery.of(context).size.height;
 
     return Image.asset(
-      'assets/images/logotipo-instituto_B.png',
-      height: altoPantalla * 0.50, 
+      'assets/images/logo_infocal.png',
+      height: altoPantalla * 0.40, 
       fit: BoxFit.contain,
     );
   }
