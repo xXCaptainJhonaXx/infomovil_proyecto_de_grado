@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:infocal_infomovil/widgets/title_text.dart';
-import 'package:infocal_infomovil/widgets/logo_instituto.dart';
-import 'package:infocal_infomovil/widgets/input_field.dart';
-import 'package:infocal_infomovil/widgets/button_login.dart';
+import 'package:infocal_infomovil/widgets/login/title_text.dart';
+import 'package:infocal_infomovil/widgets/login/logo_instituto.dart';
+import 'package:infocal_infomovil/widgets/login/input_field.dart';
+import 'package:infocal_infomovil/widgets/login/button_login.dart';
+
+import 'package:infocal_infomovil/widgets/general/alert_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -70,7 +72,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     texto: "INGRESAR",
                     alPresionar: () {
                       //LOGICA DE AUTENTICACION
-                      print("iniciando sesion...");
+                      //print("iniciando sesion...");
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertaPersonalizada(
+                            titulo: "Aviso",
+                            mensaje: "Hola mundo",
+                            alConfirmar: () {
+                              Navigator.pop(context);
+                            }
+                          );
+                        }
+                      );
                     },
                   ),
                 ),
