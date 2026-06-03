@@ -4,15 +4,19 @@ class CampoTextoPersonalizado extends StatelessWidget {
   final String etiqueta;
   final bool ocultarTexto;
 
+  final TextEditingController controller;
+
   const CampoTextoPersonalizado({
     super.key,
     required this.etiqueta,
+    required this.controller,
     this.ocultarTexto = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       obscureText: ocultarTexto,
       decoration: InputDecoration(
         labelText: etiqueta,

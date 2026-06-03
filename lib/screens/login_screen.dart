@@ -3,7 +3,6 @@ import 'package:infocal_infomovil/widgets/login/title_text.dart';
 import 'package:infocal_infomovil/widgets/login/logo_instituto.dart';
 import 'package:infocal_infomovil/widgets/login/input_field.dart';
 import 'package:infocal_infomovil/widgets/login/button_login.dart';
-
 import 'package:infocal_infomovil/widgets/general/alert_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +13,17 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  final TextEditingController _usuarioController = TextEditingController();
+  final TextEditingController _contrasenaController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usuarioController.dispose();
+    _contrasenaController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Mide el alto total de la pantalla del dispositivo
@@ -25,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
           true, // Evita que el teclado empuje el contenido hacia arriba
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             height: altoPantalla - MediaQuery.of(context).padding.top,
             child: Column(
               // Al quitar el mainAxisAlignment, por defecto todo se alinea ARRIBA
@@ -47,20 +57,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Aquí es donde más adelante pondremos los inputs sin que nada se rompa
                 SizedBox(height: altoPantalla * 0.05),
 
-                const Padding(
+                //campo de texto usuario
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.0),
-                  child: CampoTextoPersonalizado(etiqueta: "Usuario"),
+                  child: CampoTextoPersonalizado(
+                    etiqueta: "Usuario",
+                    controller: _usuarioController,
+                    ),
                 ),
 
                 const SizedBox(
                   height: 30.0,
                 ), // Espacio entre los dos campos de texto
-
-                const Padding(
+                //campo de texto contraseña
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.0),
                   child: CampoTextoPersonalizado(
                     etiqueta: "Contraseña",
                     ocultarTexto: true,
+                    controller: _contrasenaController,
                   ),
                 ),
 
@@ -72,20 +87,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     texto: "INGRESAR",
                     alPresionar: () {
                       //LOGICA DE AUTENTICACION
-                      //print("iniciando sesion...");
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return AlertaPersonalizada(
+                      final usuarioDigitado = _usuarioController.text.trim();
+                      final contrasenaDigitada = _contrasenaController.text.trim();
+                      
+                      if (usuarioDigitado.isEmpty || contrasenaDigitada.isEmpty) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => AlertaPersonalizada(
                             titulo: "Aviso",
-                            mensaje: "Hola mundo",
-                            alConfirmar: () {
-                              Navigator.pop(context);
-                            }
-                          );
-                        }
-                      );
+                            mensaje: "Por favor, ingresa tus credenciales completas.",
+                            alConfirmar: () => Navigator.pop(context),
+                          ),
+                        );
+                        return; // Frena la ejecución si falta algún dato
+                      }
+                      print("Listo para enviar a Django -> Username: $usuarioDigitado, Password: $contrasenaDigitada");
                     },
                   ),
                 ),
