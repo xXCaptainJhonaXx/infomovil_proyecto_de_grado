@@ -3,7 +3,7 @@ import 'package:infocal_infomovil/widgets/login/title_text.dart';
 import 'package:infocal_infomovil/widgets/login/logo_instituto.dart';
 import 'package:infocal_infomovil/widgets/login/input_field.dart';
 import 'package:infocal_infomovil/widgets/login/button_login.dart';
-import 'package:infocal_infomovil/widgets/general/alert_dialog.dart';
+import 'package:infocal_infomovil/controllers/login_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _contrasenaController = TextEditingController();
+
+  final LoginController _loginController = LoginController();
 
   @override
   void dispose() {
@@ -50,11 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 // 2. Espacio corto y controlado entre el logo y el texto (2% de la pantalla)
                 SizedBox(height: altoPantalla * 0.005),
 
-                // Tu componente de Título
+               // componente de Título
                 const TitleText(text: "Iniciar Sesion"),
 
-                // 3. El resto de la pantalla abajo queda libre y vacío por ahora
-                // Aquí es donde más adelante pondremos los inputs sin que nada se rompa
+                
                 SizedBox(height: altoPantalla * 0.05),
 
                 //campo de texto usuario
@@ -87,22 +88,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     texto: "INGRESAR",
                     alPresionar: () {
                       //LOGICA DE AUTENTICACION
-                      final usuarioDigitado = _usuarioController.text.trim();
-                      final contrasenaDigitada = _contrasenaController.text.trim();
-                      
-                      if (usuarioDigitado.isEmpty || contrasenaDigitada.isEmpty) {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) => AlertaPersonalizada(
-                            titulo: "Aviso",
-                            mensaje: "Por favor, ingresa tus credenciales completas.",
-                            alConfirmar: () => Navigator.pop(context),
-                          ),
-                        );
-                        return; // Frena la ejecución si falta algún dato
-                      }
-                      print("Listo para enviar a Django -> Username: $usuarioDigitado, Password: $contrasenaDigitada");
+                      _loginController.procesarLogin(
+                        context: context,
+                        usuario: _usuarioController.text.trim(),
+                        contrasena: _contrasenaController.text.trim(),
+                      );
                     },
                   ),
                 ),
