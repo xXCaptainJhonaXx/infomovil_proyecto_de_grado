@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infocal_infomovil/services/session_manager.dart';
-import 'package:infocal_infomovil/screens/login_screen.dart';
+import 'package:infocal_infomovil/view/login_screen.dart';
 import 'package:infocal_infomovil/widgets/login/button_login.dart'; // Reutilizamos tu botón
 
 class HomeScreen extends StatefulWidget {
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 
                 // Botón heredado que ejecuta la lógica de cerrar sesión
                 BotonPrincipal(
-                  texto: "LOGOUT",
+                  texto: "Cerrar Sesión",
                   alPresionar: () async {
                     // 1. Borramos los tokens del almacenamiento local
                     await _sessionManager.cerrarSesion();

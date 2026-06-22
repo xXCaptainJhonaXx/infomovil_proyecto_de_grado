@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart';
+import 'view/login_screen.dart';
 
 void main() {
   runApp(const Infomovil());
