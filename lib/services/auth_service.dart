@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:infocal_infomovil/models/login_response_model.dart';
 
 class AuthService {
-  final String _baseUrl = 'http://10.0.2.2:8000/api/auth/login/';
+  final String _baseUrl = 'http://10.0.2.2:8080/api/auth/student/login';
 
   Future<dynamic> iniciarSesion(String username, String password) async {
     try {
@@ -16,18 +16,18 @@ class AuthService {
         url,
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: jsonEncode({
           'username': username,
           'password': password,
         }),
-      ).timeout(const Duration(seconds: 7)); // * Si pasan 7 segundos sin respuesta, saltará al bloque TimeoutException de abajo
+      ).timeout(const Duration(seconds: 5)); // * Si pasan 5 segundos sin respuesta, saltará al bloque TimeoutException de abajo
 
       if (respuesta.statusCode == 200) {
         final Map<String, dynamic> datosJson = jsonDecode(respuesta.body);
         return LoginResponseModel.fromJson(datosJson);
       } else {
-        // * EXPLICACIÓN: Django respondió activamente (hubo conexión), pero las credenciales están mal (ej: código 400)
         print('Error en autenticación. Código de estado: ${respuesta.statusCode}');
         return respuesta.statusCode;
       }

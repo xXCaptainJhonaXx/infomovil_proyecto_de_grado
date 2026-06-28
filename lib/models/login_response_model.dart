@@ -1,19 +1,25 @@
 // import 'dart:convert';
 
 class LoginResponseModel {
-  final String refresh;
-  final String access;
+  final String token; // * CAMBIADO: Antes era 'access'
+  final String username;
+  final String rol; // * NUEVO: Captura el rol enviado por Spring Boot
+  final int personaId; // * NUEVO: ID único de la base de datos para consultas posteriores
 
-  const LoginResponseModel({
-    required this.refresh,
-    required this.access,
+  LoginResponseModel({
+    required this.token,
+    required this.username,
+    required this.rol,
+    required this.personaId,
   });
 
-  // toma el mapa JSON de Django y crea la instancia en Dart
+  // * Mapea el JSON que viene de Spring Boot a tu objeto Dart
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
-      refresh: json['refresh'] as String,
-      access: json['access'] as String,
+      token: json['token'] as String, // * Lee 'token' del nuevo JSON
+      username: json['username'] as String,
+      rol: json['rol'] as String,
+      personaId: json['personaId'] as int,
     );
   }
 }

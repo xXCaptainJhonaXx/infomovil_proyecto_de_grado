@@ -25,7 +25,8 @@ class LoginController {
       return;
     }
 
-    print("Conectando con el servidor Django desde el Controlador...");
+    // # MODIFICACIÓN: Cambiado el mensaje de consola para rastrear Spring Boot
+    print("Conectando con el servidor Spring Boot desde el Controlador...");
     final resultado = await _authService.iniciarSesion(usuario, contrasena);
 
     // * EVALUACIÓN DEL RESULTADO:
@@ -33,7 +34,9 @@ class LoginController {
       print("¡Login Exitoso!");
       
       final sessionManager = SessionManager();
-      await sessionManager.guardarSesion(resultado.access, usuario);
+      
+      // # MODIFICACIÓN: Cambiado '.access' por '.token' para que coincida con la respuesta de Spring Boot
+      await sessionManager.guardarSesion(resultado.token, usuario);
 
       if (context.mounted) {
         Navigator.pushReplacement(
@@ -55,7 +58,7 @@ class LoginController {
       // * CASO B: Hubo respuesta del servidor, pero fue un código de error (ej: 400, 401, 500)
       else if (resultado is int) {
         if (resultado == 400 || resultado == 401) {
-          // * Django dice explícitamente: "Esas credenciales no existen en mi base de datos"
+          // # MODIFICACIÓN: El comentario ahora aplica a la respuesta denegada de Spring Boot Security
           tituloError = "Credenciales Incorrectas";
           mensajeError = "El usuario o la contraseña que ingresaste no son válidos.";
         } else {
